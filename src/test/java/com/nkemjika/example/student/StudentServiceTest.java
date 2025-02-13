@@ -112,4 +112,29 @@ class StudentServiceTest {
 
         Mockito.verify(repository, Mockito.times(1)).findById(studentId);
     }
+
+    @Test
+    public void should_successfully_find_student_by_name() {
+        //Given
+        String name = "John";
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("John", "Doe", "john@gmail.com", 20));
+
+        //Mock the calls
+        when(repository.findAllByFirstNameContaining(name)).thenReturn(students);
+        when(studentMapper.toStudentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "John",
+                        "Doe",
+                        "john@gmail.com"
+                ));
+
+        //When
+        List<StudentResponseDto> studentResponseDto = studentService.findStudentsByName(name);
+
+        //Then
+        assertEquals(students.size(), studentResponseDto.size());
+        Mockito.verify(repository, Mockito.times(1)).findAllByFirstNameContaining(name);
+
+    }
 }
