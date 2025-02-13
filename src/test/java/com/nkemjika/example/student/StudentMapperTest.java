@@ -28,6 +28,13 @@ class StudentMapperTest {
    }
 
    @Test
+   public void should_throw_null_pointer_exception_when_studentDto_is_null() {
+
+        var msg = assertThrows(NullPointerException.class, () -> studentMapper.toStudent(null));
+        assertEquals("The student Dto should not be null", msg.getMessage());
+   }
+
+   @Test
     public void shouldMapStudentToStudentResponseDto() {
        Student student =  new Student("John", "Doe", "john@gmail.com", 20);
 
