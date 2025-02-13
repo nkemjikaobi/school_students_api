@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static javax.management.Query.times;
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,5 +85,31 @@ class StudentServiceTest {
         //Then
         assertEquals(students.size(), responseDtos.size());
         Mockito.verify(repository, Mockito.times(1)).findAll();
+    }
+
+    @Test
+    public void should_successfully_find_student_by_id() {
+        //Given
+        Integer studentId = 1;
+        Student student =  new Student("John", "Doe", "john@gmail.com", 20);
+
+        //Mock the calls
+        when(repository.findById(studentId)).thenReturn(Optional.of(student));
+        when(studentMapper.toStudentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "John",
+                        "Doe",
+                        "john@gmail.com"
+                ));
+
+        //When
+        StudentResponseDto studentResponseDto = studentService.findStudentById(studentId);
+
+        //Then
+        assertEquals(studentResponseDto.firstName(), student.getFirstName());
+        assertEquals(studentResponseDto.lastName(), student.getLastName());
+        assertEquals(studentResponseDto.email(), student.getEmail());
+
+        Mockito.verify(repository, Mockito.times(1)).findById(studentId);
     }
 }
