@@ -26,4 +26,16 @@ class StudentMapperTest {
     assertNotNull(student.getSchool());
     assertEquals(dto.schoolId(), student.getSchool().getId());
    }
+
+   @Test
+    public void shouldMapStudentToStudentResponseDto() {
+       Student student =  new Student("John", "Doe", "john@gmail.com", 20);
+
+       StudentResponseDto dto = studentMapper.toStudentResponseDto(student);
+
+       assertEquals(dto.firstName(), student.getFirstName());
+       assertEquals(dto.lastName(), student.getLastName());
+       assertEquals(dto.email(), student.getEmail());
+
+    }
 }

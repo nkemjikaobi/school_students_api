@@ -53,6 +53,13 @@ public class Student {
         this.school = school;
     }
 
+    public Student(String firstName, String lastName, String email, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+    }
+
     public StudentProfile getStudentProfile() {
         return studentProfile;
     }
