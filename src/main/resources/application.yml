@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/demo_db
+    username: obi
+    password: obi
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+#      ddl-auto: update
+      ddl-auto: create
+#      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
+    database: postgresql
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
