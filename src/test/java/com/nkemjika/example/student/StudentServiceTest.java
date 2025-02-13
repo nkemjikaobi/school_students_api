@@ -7,8 +7,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.management.Query.times;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class StudentServiceTest {
@@ -59,5 +63,26 @@ class StudentServiceTest {
         Mockito.verify(studentMapper, Mockito.times(1)).toStudentResponseDto(savedStudent);
     }
 
+    @Test
+    public void should_successfully_fetch_all_students(){
+        //Given
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("John", "Doe", "john@gmail.com", 20));
 
+        //Mock the calls
+        when(repository.findAll()).thenReturn(students);
+        when(studentMapper.toStudentResponseDto(any(Student.class)))
+                .thenReturn(new StudentResponseDto(
+                        "John",
+                        "Doe",
+                        "john@gmail.com"
+                ));
+
+        //When
+        List<StudentResponseDto> responseDtos = studentService.findAllStudents();
+
+        //Then
+        assertEquals(students.size(), responseDtos.size());
+        Mockito.verify(repository, Mockito.times(1)).findAll();
+    }
 }
